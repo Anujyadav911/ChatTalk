@@ -12,7 +12,7 @@ import chatRoutes from "./routes/chat.route.js";
 import { connectDB } from "./lib/db.js";
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 4001;
 
 // Validate required environment variables
 if (!process.env.MONGO_URI) {
@@ -25,6 +25,11 @@ if (!process.env.JWT_SECRET_KEY) {
   process.exit(1);
 }
 
+if (!process.env.STREAM_API_KEY || !process.env.STREAM_API_SECRET) {
+  console.error("STREAM_API_KEY and STREAM_API_SECRET environment variables are required");
+  process.exit(1);
+}
+
 const __dirname = path.resolve();
 
 // Configure CORS for both development and production
@@ -33,6 +38,7 @@ const allowedOrigins = [
   "http://localhost:5174",
   "http://localhost:3000",
   "https://localhost:3000",
+  "https://chattalk-hwlv.onrender.com", // Production URL
 ];
 
 // Add production domain if FRONTEND_URL is provided

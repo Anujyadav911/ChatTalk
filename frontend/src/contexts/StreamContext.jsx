@@ -35,6 +35,10 @@ export const StreamProvider = ({ children }) => {
   useEffect(() => {
     const initializeClient = async (attempt = 0) => {
       if (!tokenData?.token || !authUser || !STREAM_API_KEY || isConnecting) {
+        if (!STREAM_API_KEY) {
+          console.error("VITE_STREAM_API_KEY is not configured");
+          setConnectionError("Stream API key is not configured");
+        }
         return;
       }
 

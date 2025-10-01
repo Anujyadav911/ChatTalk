@@ -1,10 +1,9 @@
 import "dotenv/config";
 import express from "express";
+// import "dotenv/config";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
-import { createServer } from "http"; // ✅ for socket.io
-import { Server } from "socket.io"; // ✅ socket.io
 
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
@@ -13,12 +12,9 @@ import chatRoutes from "./routes/chat.route.js";
 import { connectDB } from "./lib/db.js";
 
 const app = express();
-const PORT = process.env.PORT || 3001; // ✅ use Render’s dynamic port
-const __dirname = path.resolve();
+const PORT = process.env.PORT || 3001;
 
-// ----------------------
-// ✅ Environment checks
-// ----------------------
+// Validate required environment variables
 if (!process.env.MONGO_URI) {
   console.error("MONGO_URI environment variable is required");
   process.exit(1);
@@ -29,9 +25,9 @@ if (!process.env.JWT_SECRET_KEY) {
   process.exit(1);
 }
 
-// ----------------------
-// ✅ CORS setup
-// ----------------------
+const __dirname = path.resolve();
+
+// Configure CORS for both development and production
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
@@ -39,19 +35,25 @@ const allowedOrigins = [
   "https://localhost:3000",
 ];
 
+// Add production domain if FRONTEND_URL is provided
 if (process.env.FRONTEND_URL) {
   allowedOrigins.push(process.env.FRONTEND_URL);
 }
 
+// In production, allow any Render domain or the specific frontend URL
 const corsOptions = {
   origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, etc.)
     if (!origin) return callback(null, true);
 
+    // In production, be more flexible with Render domains
     if (process.env.NODE_ENV === "production") {
+      // Allow any render.com subdomain or the specific frontend URL
       if (origin.includes(".onrender.com") || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
     } else {
+      // In development, use the allowed origins list
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
@@ -59,26 +61,21 @@ const corsOptions = {
 
     callback(new Error("Not allowed by CORS"));
   },
-  credentials: true,
+  credentials: true, // allow frontend to send cookies
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-  optionsSuccessStatus: 200,
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
 app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(cookieParser());
 
-// ----------------------
-// ✅ Routes
-// ----------------------
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/chat", chatRoutes);
 
-// ----------------------
-// ✅ Serve frontend in prod
-// ----------------------
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
@@ -87,31 +84,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// ----------------------
-// ✅ Socket.io setup
-// ----------------------
-const server = createServer(app);
-
-const io = new Server(server, {
-  cors: {
-    origin: process.env.FRONTEND_URL || "*", // ✅ allow frontend
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
-});
-
-io.on("connection", (socket) => {
-  console.log("✅ User connected:", socket.id);
-
-  socket.on("disconnect", () => {
-    console.log("❌ User disconnected:", socket.id);
-  });
-});
-
-// ----------------------
-// ✅ Start server
-// ----------------------
-server.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
   connectDB();
 });

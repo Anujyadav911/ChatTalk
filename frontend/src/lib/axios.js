@@ -1,7 +1,22 @@
 import axios from "axios";
 
-const BASE_URL =
-  import.meta.env.MODE === "development" ? "http://localhost:4001/api" : "/api";
+// Configure API base URL for different environments
+const getBaseURL = () => {
+  // If VITE_API_URL is provided (for production), use it
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  
+  // Development mode
+  if (import.meta.env.MODE === "development") {
+    return "http://localhost:4001/api";
+  }
+  
+  // Production fallback - relative path
+  return "/api";
+};
+
+const BASE_URL = getBaseURL();
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,

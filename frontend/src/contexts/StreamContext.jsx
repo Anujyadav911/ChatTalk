@@ -19,7 +19,12 @@ export const useStreamContext = () => {
 export const StreamProvider = ({ children }) => {
   const [client, setClient] = useState(null);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [connectionError, setConnectionError] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
   const { authUser } = useAuthUser();
+
+  const MAX_RETRIES = 3;
+  const RETRY_DELAY = 2000; // 2 seconds
 
   const { data: tokenData } = useQuery({
     queryKey: ["streamToken"],
@@ -28,14 +33,15 @@ export const StreamProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const initializeClient = async () => {
+    const initializeClient = async (attempt = 0) => {
       if (!tokenData?.token || !authUser || !STREAM_API_KEY || isConnecting) {
         return;
       }
 
       try {
         setIsConnecting(true);
-        console.log("Initializing Stream client...");
+        setConnectionError(null);
+        console.log(`Initializing Stream client... (attempt ${attempt + 1})`);
 
         const streamClient = StreamChat.getInstance(STREAM_API_KEY);
 
@@ -56,19 +62,45 @@ export const StreamProvider = ({ children }) => {
             tokenData.token
           );
 
-          // Wait for connection to complete
-          await connectPromise;
+          // Set a timeout for connection
+          const timeoutPromise = new Promise((_, reject) => {
+            setTimeout(() => reject(new Error('Connection timeout')), 10000);
+          });
+
+          // Wait for connection to complete with timeout
+          await Promise.race([connectPromise, timeoutPromise]);
           console.log("Stream user connected successfully");
           
           // Add connection event listeners
           streamClient.on('connection.changed', (event) => {
             console.log('Stream connection changed:', event.type);
+            if (event.type === 'connection.recovered') {
+              setConnectionError(null);
+            }
+          });
+
+          streamClient.on('connection.error', (error) => {
+            console.error('Stream connection error:', error);
+            setConnectionError(error.message);
           });
         }
         
         setClient(streamClient);
+        setRetryCount(0); // Reset retry count on success
       } catch (error) {
         console.error("Error initializing Stream client:", error);
+        setConnectionError(error.message);
+        
+        // Retry logic
+        if (attempt < MAX_RETRIES) {
+          console.log(`Retrying connection in ${RETRY_DELAY}ms... (${attempt + 1}/${MAX_RETRIES})`);
+          setRetryCount(attempt + 1);
+          setTimeout(() => {
+            initializeClient(attempt + 1);
+          }, RETRY_DELAY * (attempt + 1)); // Exponential backoff
+        } else {
+          console.error("Max retries reached. Stream connection failed.");
+        }
       } finally {
         setIsConnecting(false);
       }
@@ -91,6 +123,8 @@ export const StreamProvider = ({ children }) => {
   const value = {
     client,
     isConnecting,
+    connectionError,
+    retryCount,
     isReady: !!client && !isConnecting && !!client?.user,
   };
 

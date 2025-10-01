@@ -27,14 +27,47 @@ if (!process.env.JWT_SECRET_KEY) {
 
 const __dirname = path.resolve();
 
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"],
-    credentials: true, // allow frontend to send cookies
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+// Configure CORS for both development and production
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:3000",
+  "https://localhost:3000",
+];
+
+// Add production domain if FRONTEND_URL is provided
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
+// In production, allow any Render domain or the specific frontend URL
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, etc.)
+    if (!origin) return callback(null, true);
+    
+    // In production, be more flexible with Render domains
+    if (process.env.NODE_ENV === "production") {
+      // Allow any render.com subdomain or the specific frontend URL
+      if (origin.includes('.onrender.com') || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+    } else {
+      // In development, use the allowed origins list
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+    }
+    
+    callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true, // allow frontend to send cookies
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());

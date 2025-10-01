@@ -10,7 +10,5 @@
   "author": "Mansi AhirWar, Anuj Yadav",
   "license": "ISC",
   "description": "",
-  "dependencies": {
-    "dotenv": "^17.2.3"
-  }
+  "dependencies": {}
 }

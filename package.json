@@ -9,5 +9,8 @@
   "keywords": [],
   "author": "Mansi AhirWar, Anuj Yadav",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  }
 }

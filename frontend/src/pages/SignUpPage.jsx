@@ -29,7 +29,7 @@ const SignUpPage = () => {
           <div className="mb-4 flex items-center justify-start gap-2">
             <MessageCircleIcon className="size-9 text-pink-400" />
             <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-400 tracking-wider">
-              BubbleTalk
+              ChatTalk
             </span>
           </div>
 
@@ -46,7 +46,7 @@ const SignUpPage = () => {
                 <div>
                   <h2 className="text-xl font-semibold">Create an Account</h2>
                   <p className="text-sm text-black/70">
-                    Join BubbleTalk and start making friends!
+                    Join ChatTalk and start making friends!
                   </p>
                 </div>
 
@@ -62,7 +62,10 @@ const SignUpPage = () => {
                       className="input input-bordered w-full bg-white text-black"
                       value={signupData.fullName}
                       onChange={(e) =>
-                        setSignupData({ ...signupData, fullName: e.target.value })
+                        setSignupData({
+                          ...signupData,
+                          fullName: e.target.value,
+                        })
                       }
                       required
                     />
@@ -96,7 +99,10 @@ const SignUpPage = () => {
                       className="input input-bordered w-full bg-white text-black"
                       value={signupData.password}
                       onChange={(e) =>
-                        setSignupData({ ...signupData, password: e.target.value })
+                        setSignupData({
+                          ...signupData,
+                          password: e.target.value,
+                        })
                       }
                       required
                     />
@@ -108,11 +114,20 @@ const SignUpPage = () => {
                   {/* Terms */}
                   <div className="form-control">
                     <label className="label cursor-pointer justify-start gap-2">
-                      <input type="checkbox" className="checkbox checkbox-sm" required />
+                      <input
+                        type="checkbox"
+                        className="checkbox checkbox-sm"
+                        required
+                      />
                       <span className="text-xs leading-tight text-black/80">
                         I agree to the{" "}
-                        <span className="text-pink-500 hover:underline">terms of service</span> and{" "}
-                        <span className="text-pink-500 hover:underline">privacy policy</span>
+                        <span className="text-pink-500 hover:underline">
+                          terms of service
+                        </span>{" "}
+                        and{" "}
+                        <span className="text-pink-500 hover:underline">
+                          privacy policy
+                        </span>
                       </span>
                     </label>
                   </div>
@@ -164,7 +179,8 @@ const SignUpPage = () => {
                 Connect with partners worldwide
               </h2>
               <p className="text-black/70">
-              Connect instantly through chat and video calls — make conversations more personal, fun, and real with BubbleTalk.
+                Connect instantly through chat and video calls — make
+                conversations more personal, fun, and real with ChatTalk.
               </p>
             </div>
           </div>

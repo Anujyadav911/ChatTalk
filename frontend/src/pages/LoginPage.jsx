@@ -28,7 +28,7 @@ const LoginPage = () => {
           <div className="mb-4 flex items-center justify-start gap-2">
             <MessageCircleIcon className="size-9 text-pink-400" />
             <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-400 tracking-wider">
-              BubbleTalk
+              ChatTalk
             </span>
           </div>
 

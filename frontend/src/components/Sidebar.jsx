@@ -1,6 +1,12 @@
 import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
-import { BellIcon, HomeIcon, ShipWheelIcon, UsersIcon, MessageCircleIcon } from "lucide-react";
+import {
+  BellIcon,
+  HomeIcon,
+  ShipWheelIcon,
+  UsersIcon,
+  MessageCircleIcon,
+} from "lucide-react";
 
 const Sidebar = ({ onClose }) => {
   const { authUser } = useAuthUser();
@@ -18,7 +24,7 @@ const Sidebar = ({ onClose }) => {
         <Link to="/" className="flex items-center gap-2.5" onClick={handleNav}>
           <MessageCircleIcon className="size-9 text-primary" />
           <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
-            BubbleTalk
+            ChatTalk
           </span>
         </Link>
       </div>

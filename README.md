@@ -20,29 +20,36 @@ A modern, full-stack real-time communication platform built with React and Node.
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **React 19** - Modern UI library
-- **Vite** - Fast build tool and dev server
-- **React Router** - Client-side routing
-- **Tailwind CSS** - Utility-first CSS framework
-- **DaisyUI** - Component library for Tailwind
-- **Stream Chat React SDK** - Real-time chat functionality
-- **Stream Video React SDK** - Video calling capabilities
-- **Zustand** - State management
-- **React Query** - Server state management
-- **Axios** - HTTP client
-- **React Hot Toast** - Toast notifications
-- **Lucide React** - Icon library
+- **React** (v19.0.0) - Modern UI library
+- **React DOM** (v19.0.0) - React rendering library
+- **Vite** (v6.3.1) - Fast build tool and dev server
+- **React Router** (v7.5.1) - Client-side routing
+- **Tailwind CSS** (v3.4.17) - Utility-first CSS framework
+- **DaisyUI** (v4.12.24) - Component library for Tailwind
+- **PostCSS** (v8.5.3) - CSS processing tool
+- **Autoprefixer** (v10.4.21) - CSS vendor prefixing
+- **Stream Chat** (v8.60.0) - Stream.io chat client SDK
+- **Stream Chat React** (v12.14.0) - React components for Stream Chat
+- **Stream Video React SDK** (v1.14.4) - Video calling capabilities
+- **Zustand** (v5.0.3) - Lightweight state management
+- **TanStack React Query** (v5.74.4) - Server state management and data fetching
+- **Axios** (v1.8.4) - HTTP client for API requests
+- **React Hot Toast** (v2.5.2) - Toast notification library
+- **Lucide React** (v0.503.0) - Beautiful icon library
+- **ESLint** (v9.22.0) - Code linting and quality tool
 
 ### Backend
-- **Node.js** - JavaScript runtime
-- **Express.js** - Web framework
+- **Node.js** - JavaScript runtime environment
+- **Express.js** (v4.21.0) - Web application framework
 - **MongoDB** - NoSQL database
-- **Mongoose** - MongoDB object modeling
-- **JWT** - JSON Web Tokens for authentication
-- **bcryptjs** - Password hashing
-- **Stream.io** - Real-time messaging and video infrastructure
-- **Cookie Parser** - Cookie parsing middleware
-- **CORS** - Cross-origin resource sharing
+- **Mongoose** (v8.13.2) - MongoDB object modeling library
+- **JSON Web Token** (v9.0.2) - Authentication token management
+- **bcryptjs** (v3.0.2) - Password hashing library
+- **Stream Chat** (v8.60.0) - Stream.io chat server SDK
+- **Cookie Parser** (v1.4.7) - Cookie parsing middleware
+- **CORS** (v2.8.5) - Cross-origin resource sharing middleware
+- **dotenv** (v16.5.0) - Environment variable management
+- **Nodemon** (v3.1.9) - Development auto-reload tool
 
 ## 📋 Prerequisites
 

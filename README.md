@@ -5,6 +5,13 @@ A modern, full-stack real-time communication platform built with React and Node.
 ![License](https://img.shields.io/badge/license-ISC-blue.svg)
 ![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)
 ![React](https://img.shields.io/badge/react-19.0.0-blue.svg)
+![Express.js](https://img.shields.io/badge/express-4.21.0-000000.svg)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)
+![Mongoose](https://img.shields.io/badge/Mongoose-880000?logo=mongoose&logoColor=white)
+![Vite](https://img.shields.io/badge/vite-6.3.1-646CFF.svg?logo=vite&logoColor=white)
+![Stream.io](https://img.shields.io/badge/Stream.io-FF0054?logo=stream&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/tailwindcss-3.4.17-38B2AC?logo=tailwind-css&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?logo=JSON%20web%20tokens&logoColor=white)
 
 ## ✨ Features
 
